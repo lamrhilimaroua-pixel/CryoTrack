@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryoTrack - Paramètres</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<script>
+
+const CODE_INGENIEUR = "CryoTrack2026";
+
+
+function verifierAccesIngenieur() {
+
+    const code =
+        document.getElementById(
+            "codeIngenieur"
+        ).value;
+
+    if (code === CODE_INGENIEUR) {
+
+    sessionStorage.setItem(
+        "modeIngenieur",
+        "active"
+    );
+
+    document.getElementById(
+        "accesIngenieur"
+    ).style.display = "none";
+
+    // Afficher le bouton de déconnexion
+    const boutonDeconnexion =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+    if (boutonDeconnexion) {
+        boutonDeconnexion.style.display = "block";
+    }
+
+        document.getElementById(
+            "contenuParametres"
+        ).style.display = "block";
+
+    } else {
+
+        document.getElementById(
+            "erreurIngenieur"
+        ).style.display = "block";
+
+    }
+
+}
+
+
+function retourDashboard() {
+
+    window.location.href =
+        "./dashboard.html.html";
+
+}
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem("modeIngenieur");
+
+    alert("🔒 Mode ingénieur désactivé.");
+
+    window.location.href =
+        "./dashboard.html.html";
+}
+
+
+window.addEventListener("DOMContentLoaded", function() {
+
+    const mode =
+        sessionStorage.getItem(
+            "modeIngenieur"
+        );
+
+    if (mode === "active") {
+
+        document.getElementById(
+            "accesIngenieur"
+        ).style.display = "none";
+
+        document.getElementById(
+            "contenuParametres"
+        ).style.display = "block";
+
+    } else {
+
+        document.getElementById(
+            "accesIngenieur"
+        ).style.display = "flex";
+
+        document.getElementById(
+            "contenuParametres"
+        ).style.display = "none";
+
+    }
+
+});
+
+</script>
+<body>
+    <div id="accesIngenieur" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+">
+
+    <div style="
+        background:white;
+        padding:35px;
+        border-radius:15px;
+        width:400px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    ">
+
+        <h2 style="color:#005EB8; text-align:center;">
+            🔐 Accès Ingénieur
+        </h2>
+
+        <p style="text-align:center; margin:20px 0;">
+            Cette section est réservée aux ingénieurs.
+        </p>
+
+        <input
+            type="password"
+            id="codeIngenieur"
+            placeholder="Code ingénieur"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                margin-bottom:15px;
+            "
+        >
+
+        <button
+            type="button"
+            onclick="verifierAccesIngenieur()"
+            style="width:100%;"
+        >
+            🔓 Accéder
+        </button>
+
+        <button
+            type="button"
+            onclick="retourDashboard()"
+            style="
+                width:100%;
+                background:#777;
+                margin-top:10px;
+            "
+        >
+            ← Retour
+        </button>
+
+        <p
+            id="erreurIngenieur"
+            style="
+                display:none;
+                color:red;
+                text-align:center;
+                margin-top:15px;
+            "
+        >
+            ❌ Code incorrect
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- =========================
+         MENU LATÉRAL
+         ========================= -->
+
+        <aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <img
+            src="images/air-liquide-logo.png.png"
+            alt="CryoTrack"
+        >
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="./dashboard.html.html"
+            class="menu-item active"
+        >
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="./index.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">🚛</span>
+            <span>Nouveau chargement</span>
+        </a>
+
+
+        <a
+            href="./historique.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📋</span>
+            <span>Historique</span>
+        </a>
+
+
+        <a
+            href="./analyses.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📊</span>
+            <span>Analyses</span>
+        </a>
+
+
+        <a
+            href="./rapports.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📄</span>
+            <span>Rapports</span>
+        </a>
+
+
+        <a
+            href="./parametres.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">⚙️</span>
+            <span>Paramètres</span>
+        </a>
+
+
+        <a
+            href="#"
+            id="menuDeconnexionIngenieur"
+            class="menu-item engineer-menu"
+            style="display:none;"
+            onclick="deconnexionIngenieur(); return false;"
+        >
+            <span class="menu-icon">🔒</span>
+            <span>Quitter mode ingénieur</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <strong>Air Liquide</strong>
+
+        <span>CryoTrack</span>
+
+        <small>Version 1.0.0</small>
+
+    </div>
+
+</aside>
+
+    <!-- =========================
+         CONTENU PRINCIPAL
+         ========================= -->
+
+    <main class="content">
+
+
+        <!-- EN-TÊTE -->
+
+        <header class="top-header">
+
+            <div>
+
+                <h1>
+                    ⚙ Paramètres
+                </h1>
+
+                <p>
+                    Configuration de CryoTrack
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <p id="date"></p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             SEUIL DE PERTES
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                ⚠️ Seuil de pertes
+            </h2>
+
+
+            <div class="grid">
+
+                <div>
+
+                    <label>
+                        Seuil maximal de pertes (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="seuilPertes"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        value="5">
+
+                </div>
+
+            </div>
+
+
+            <p style="margin-top:15px;color:#666;">
+
+                Si le taux de pertes dépasse ce seuil,
+                le chargement sera considéré comme
+                étant en alerte.
+
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             PRODUITS
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                🧪 Produits
+            </h2>
+
+
+            <div class="grid">
+
+
+                <div>
+
+                    <label>
+                        Produit 1
+                    </label>
+
+                    <input
+                        type="text"
+                        id="produit1"
+                        value="LIN">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Produit 2
+                    </label>
+
+                    <input
+                        type="text"
+                        id="produit2"
+                        value="LOX">
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STOCKAGES
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                🛢️ Stockages
+            </h2>
+
+
+            <div class="grid">
+
+
+                <div>
+
+                    <label>
+                        Stockage 1
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockage1"
+                        value="B40">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Stockage 2
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockage2"
+                        value="B50">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Stockage 3
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockage3"
+                        value="B51">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Stockage 4
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockage4"
+                        value="B52">
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SEMI-REMORQUES
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                🚛 Types de semi-remorques
+            </h2>
+
+
+            <div class="grid">
+
+
+                <div>
+
+                    <label>
+                        Type 1
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sr1"
+                        value="ISO">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Type 2
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sr2"
+                        value="Solo HP">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Type 3
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sr3"
+                        value="SR BP">
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BOUTONS
+             ========================= -->
+
+        <section class="formulaire">
+
+            <button
+                type="button"
+                id="enregistrerParametres">
+
+                💾 Enregistrer les paramètres
+
+            </button>
+
+
+            <button
+                type="button"
+                id="reinitialiserParametres">
+
+                🔄 Restaurer les valeurs par défaut
+
+            </button>
+
+
+            <div
+                id="messageParametres"
+                class="statut">
+
+                Aucun changement enregistré.
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<script>
+    const role =
+    sessionStorage.getItem("roleCryoTrack");
+
+if (role !== "ingenieur") {
+
+    window.location.href =
+        "./connexion.html.html";
+
+}
+
+
+/* =====================================================
+   DATE
+   ===================================================== */
+
+const dateElement =
+    document.getElementById("date");
+
+
+if (dateElement) {
+
+    dateElement.textContent =
+        new Date().toLocaleDateString("fr-FR");
+
+}
+
+
+/* =====================================================
+   VALEURS PAR DÉFAUT
+   ===================================================== */
+
+const parametresParDefaut = {
+
+    seuilPertes: 5,
+
+    produit1: "LIN",
+    produit2: "LOX",
+
+    stockage1: "B40",
+    stockage2: "B50",
+    stockage3: "B51",
+    stockage4: "B52",
+
+    sr1: "ISO",
+    sr2: "Solo HP",
+    sr3: "SR BP"
+
+};
+
+
+/* =====================================================
+   CHARGER LES PARAMÈTRES
+   ===================================================== */
+
+function chargerParametres() {
+
+    const donnees =
+        localStorage.getItem(
+            "parametresCryoTrack"
+        );
+
+
+    let parametres;
+
+
+    if (donnees) {
+
+        try {
+
+            parametres =
+                JSON.parse(donnees);
+
+        } catch (erreur) {
+
+            parametres =
+                parametresParDefaut;
+
+        }
+
+    } else {
+
+        parametres =
+            parametresParDefaut;
+
+    }
+
+
+    document.getElementById(
+        "seuilPertes"
+    ).value =
+        parametres.seuilPertes;
+
+
+    document.getElementById(
+        "produit1"
+    ).value =
+        parametres.produit1;
+
+
+    document.getElementById(
+        "produit2"
+    ).value =
+        parametres.produit2;
+
+
+    document.getElementById(
+        "stockage1"
+    ).value =
+        parametres.stockage1;
+
+
+    document.getElementById(
+        "stockage2"
+    ).value =
+        parametres.stockage2;
+
+
+    document.getElementById(
+        "stockage3"
+    ).value =
+        parametres.stockage3;
+
+
+    document.getElementById(
+        "stockage4"
+    ).value =
+        parametres.stockage4;
+
+
+    document.getElementById(
+        "sr1"
+    ).value =
+        parametres.sr1;
+
+
+    document.getElementById(
+        "sr2"
+    ).value =
+        parametres.sr2;
+
+
+    document.getElementById(
+        "sr3"
+    ).value =
+        parametres.sr3;
+
+}
+
+
+/* =====================================================
+   ENREGISTRER
+   ===================================================== */
+
+document
+    .getElementById(
+        "enregistrerParametres"
+    )
+    .addEventListener(
+        "click",
+        function () {
+
+
+            const parametres = {
+
+                seuilPertes:
+                    Number(
+                        document.getElementById(
+                            "seuilPertes"
+                        ).value
+                    ),
+
+                produit1:
+                    document.getElementById(
+                        "produit1"
+                    ).value.trim(),
+
+                produit2:
+                    document.getElementById(
+                        "produit2"
+                    ).value.trim(),
+
+
+                stockage1:
+                    document.getElementById(
+                        "stockage1"
+                    ).value.trim(),
+
+                stockage2:
+                    document.getElementById(
+                        "stockage2"
+                    ).value.trim(),
+
+                stockage3:
+                    document.getElementById(
+                        "stockage3"
+                    ).value.trim(),
+
+                stockage4:
+                    document.getElementById(
+                        "stockage4"
+                    ).value.trim(),
+
+
+                sr1:
+                    document.getElementById(
+                        "sr1"
+                    ).value.trim(),
+
+                sr2:
+                    document.getElementById(
+                        "sr2"
+                    ).value.trim(),
+
+                sr3:
+                    document.getElementById(
+                        "sr3"
+                    ).value.trim()
+
+            };
+
+
+            /* Vérification */
+
+            if (
+                parametres.seuilPertes < 0 ||
+                parametres.seuilPertes > 100
+            ) {
+
+                alert(
+                    "Le seuil de pertes doit être compris entre 0 et 100 %."
+                );
+
+                return;
+
+            }
+
+
+            /* Sauvegarde */
+
+            localStorage.setItem(
+
+                "parametresCryoTrack",
+
+                JSON.stringify(
+                    parametres
+                )
+
+            );
+
+
+            /* Message */
+
+            const message =
+                document.getElementById(
+                    "messageParametres"
+                );
+
+
+            message.textContent =
+                "✅ Paramètres enregistrés avec succès.";
+
+            message.style.color =
+                "green";
+
+
+        }
+    );
+
+
+/* =====================================================
+   RESTAURATION
+   ===================================================== */
+
+document
+    .getElementById(
+        "reinitialiserParametres"
+    )
+    .addEventListener(
+        "click",
+        function () {
+
+
+            const confirmation =
+                confirm(
+                    "Voulez-vous restaurer les paramètres par défaut ?"
+                );
+
+
+            if (!confirmation) {
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+
+                "parametresCryoTrack",
+
+                JSON.stringify(
+                    parametresParDefaut
+                )
+
+            );
+
+
+            chargerParametres();
+
+
+            document.getElementById(
+                "messageParametres"
+            ).textContent =
+                "🔄 Paramètres restaurés avec succès.";
+
+        }
+    );
+
+
+/* =====================================================
+   INITIALISATION
+   ===================================================== */
+
+chargerParametres();
+
+
+</script>
+
+
+
+</body>
+<script>
+
+function verifierModeIngenieur() {
+
+    const mode =
+        sessionStorage.getItem("modeIngenieur");
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+    if (bouton) {
+
+        if (mode === "active") {
+
+            bouton.style.display = "block";
+
+        } else {
+
+            bouton.style.display = "none";
+
+        }
+    }
+}
+
+
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem("modeIngenieur");
+
+    sessionStorage.removeItem("roleCryoTrack");
+
+    alert("🔒 Mode ingénieur désactivé.");
+
+    window.location.href =
+        "./dashboard.html.html";
+}
+
+
+verifierModeIngenieur();
+
+</script>
+
+</html>

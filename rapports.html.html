@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryoTrack - Rapports</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================
+         MENU LATÉRAL
+         ========================= -->
+
+        <aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <img
+            src="images/air-liquide-logo.png.png"
+            alt="CryoTrack"
+        >
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="./dashboard.html.html"
+            class="menu-item active"
+        >
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="./index.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">🚛</span>
+            <span>Nouveau chargement</span>
+        </a>
+
+
+        <a
+            href="./historique.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📋</span>
+            <span>Historique</span>
+        </a>
+
+
+        <a
+            href="./analyses.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📊</span>
+            <span>Analyses</span>
+        </a>
+
+
+        <a
+            href="./rapports.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📄</span>
+            <span>Rapports</span>
+        </a>
+
+
+        <a
+            href="./parametres.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">⚙️</span>
+            <span>Paramètres</span>
+        </a>
+
+
+        <a
+            href="#"
+            id="menuDeconnexionIngenieur"
+            class="menu-item engineer-menu"
+            style="display:none;"
+            onclick="deconnexionIngenieur(); return false;"
+        >
+            <span class="menu-icon">🔒</span>
+            <span>Quitter mode ingénieur</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <strong>Air Liquide</strong>
+
+        <span>CryoTrack</span>
+
+        <small>Version 1.0.0</small>
+
+    </div>
+
+</aside>
+
+
+    <!-- =========================
+         CONTENU
+         ========================= -->
+
+    <main class="content">
+
+
+        <!-- EN-TÊTE -->
+
+        <header class="top-header">
+
+            <div>
+
+                <h1>
+                    Rapports
+                </h1>
+
+                <p>
+                    Génération des rapports de chargement
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <p id="date"></p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             FILTRES
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                Paramètres du rapport
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- DATE DÉBUT -->
+
+                <div>
+
+                    <label>
+                        Date de début
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateDebut">
+
+                </div>
+
+
+                <!-- DATE FIN -->
+
+                <div>
+
+                    <label>
+                        Date de fin
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateFin">
+
+                </div>
+
+
+                <!-- PRODUIT -->
+
+                <div>
+
+                    <label>
+                        Produit
+                    </label>
+
+                    <select id="filtreProduit">
+
+                        <option value="Tous">
+                            Tous
+                        </option>
+
+                        <option value="LIN">
+                            LIN
+                        </option>
+
+                        <option value="LOX">
+                            LOX
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- STOCKAGE -->
+
+                <div>
+
+                    <label>
+                        Stockage
+                    </label>
+
+                    <select id="filtreStockage">
+
+                        <option value="Tous">
+                            Tous
+                        </option>
+
+                        <option value="B40">
+                            B40
+                        </option>
+
+                        <option value="B50">
+                            B50
+                        </option>
+
+                        <option value="B51">
+                            B51
+                        </option>
+
+                        <option value="B52">
+                            B52
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TYPE SR -->
+
+                <div>
+
+                    <label>
+                        Type de semi-remorque
+                    </label>
+
+                    <select id="filtreSR">
+
+                        <option value="Tous">
+                            Tous
+                        </option>
+
+                        <option value="ISO">
+                            ISO
+                        </option>
+
+                        <option value="Solo HP">
+                            Solo HP
+                        </option>
+
+                        <option value="SR BP">
+                            SR BP
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <br>
+
+
+            <!-- BOUTONS -->
+
+            <button
+                type="button"
+                id="genererRapport">
+
+                Générer le rapport
+
+            </button>
+
+            <button type="button" id="telechargerPDF">
+    📄 Télécharger le rapport PDF
+</button>
+
+
+            <button
+                type="button"
+                id="reinitialiser">
+
+                Réinitialiser
+
+            </button>
+
+
+        </section>
+
+
+        <!-- =========================
+             RÉSUMÉ
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                Résumé du rapport
+            </h2>
+
+
+            <div class="cards">
+
+
+                <div class="card">
+
+                    <h3>
+                        Chargements
+                    </h3>
+
+                    <h1 id="rapportTotal">
+                        0
+                    </h1>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Masse totale
+                    </h3>
+
+                    <h1 id="rapportMasse">
+                        0 kg
+                    </h1>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Pertes totales
+                    </h3>
+
+                    <h1 id="rapportPertes">
+                        0
+                    </h1>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Taux moyen
+                    </h3>
+
+                    <h1 id="rapportTaux">
+                        0 %
+                    </h1>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="cards">
+
+
+                <div class="card">
+
+                    <h3>
+                        Chargements conformes
+                    </h3>
+
+                    <h1 id="rapportConformes">
+                        0
+                    </h1>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Chargements en alerte
+                    </h3>
+
+                    <h1 id="rapportAlertes">
+                        0
+                    </h1>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TABLEAU DU RAPPORT
+             ========================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                Détail des chargements
+            </h2>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Opérateur</th>
+
+                            <th>Produit</th>
+
+                            <th>Stockage</th>
+
+                            <th>Type SR</th>
+
+                            <th>N° SR</th>
+
+                            <th>Masse</th>
+
+                            <th>Pertes</th>
+
+                            <th>Taux</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="rapportTableau">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   DATE
+   ===================================================== */
+
+const dateElement =
+    document.getElementById("date");
+
+if (dateElement) {
+
+    dateElement.textContent =
+        new Date().toLocaleDateString("fr-FR");
+
+}
+
+
+/* =====================================================
+   RÉCUPÉRER L'HISTORIQUE
+   ===================================================== */
+
+function recupererHistorique() {
+
+    const donnees =
+        localStorage.getItem(
+            "historiqueCryoTrack"
+        );
+
+    if (!donnees) {
+
+        return [];
+
+    }
+
+    try {
+
+        return JSON.parse(donnees);
+
+    } catch (erreur) {
+
+        console.error(
+            "Erreur historique :",
+            erreur
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   GÉNÉRER LE RAPPORT
+   ===================================================== */
+
+function genererRapport() {
+
+
+    console.log("Génération du rapport...");
+
+
+    const historique =
+        recupererHistorique();
+
+
+    console.log(
+        "Historique trouvé :",
+        historique
+    );
+
+
+    /* =========================
+       RÉCUPÉRATION DES FILTRES
+       ========================= */
+
+    const dateDebut =
+        document.getElementById(
+            "dateDebut"
+        ).value;
+
+
+    const dateFin =
+        document.getElementById(
+            "dateFin"
+        ).value;
+
+
+    const produit =
+        document.getElementById(
+            "filtreProduit"
+        ).value;
+
+
+    const stockage =
+        document.getElementById(
+            "filtreStockage"
+        ).value;
+
+
+    const typeSR =
+        document.getElementById(
+            "filtreSR"
+        ).value;
+
+
+    /* =========================
+       FILTRAGE
+       ========================= */
+
+    const resultats =
+        historique.filter(
+            function(chargement) {
+
+
+                if (
+                    dateDebut &&
+                    chargement.date < dateDebut
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    dateFin &&
+                    chargement.date > dateFin
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    produit !== "Tous" &&
+                    chargement.produit !== produit
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    stockage !== "Tous" &&
+                    chargement.stockage !== stockage
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    typeSR !== "Tous" &&
+                    chargement.typeSR !== typeSR
+                ) {
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    console.log(
+        "Résultats filtrés :",
+        resultats
+    );
+
+
+    /* =========================
+       CALCULS
+       ========================= */
+
+    let masseTotale = 0;
+
+    let pertesTotales = 0;
+
+    let sommeTaux = 0;
+
+    let conformes = 0;
+
+    let alertes = 0;
+
+
+    resultats.forEach(
+        function(chargement) {
+
+
+            masseTotale +=
+                Number(
+                    chargement.masseChargee || 0
+                );
+
+
+            pertesTotales +=
+                Number(
+                    chargement.pertes || 0
+                );
+
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            sommeTaux += taux;
+
+
+            if (taux < 5) {
+
+                conformes++;
+
+            } else {
+
+                alertes++;
+
+            }
+
+        }
+    );
+
+
+    const total =
+        resultats.length;
+
+
+    const tauxMoyen =
+        total > 0
+            ? sommeTaux / total
+            : 0;
+
+
+    /* =========================
+       AFFICHER LES RÉSULTATS
+       ========================= */
+
+    document.getElementById(
+        "rapportTotal"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "rapportMasse"
+    ).textContent =
+        masseTotale.toFixed(2) + " kg";
+
+
+    document.getElementById(
+        "rapportPertes"
+    ).textContent =
+        pertesTotales.toFixed(2);
+
+
+    document.getElementById(
+        "rapportTaux"
+    ).textContent =
+        tauxMoyen.toFixed(2) + " %";
+
+
+    document.getElementById(
+        "rapportConformes"
+    ).textContent =
+        conformes;
+
+
+    document.getElementById(
+        "rapportAlertes"
+    ).textContent =
+        alertes;
+
+
+    /* =========================
+       TABLEAU
+       ========================= */
+
+    const tableau =
+        document.getElementById(
+            "rapportTableau"
+        );
+
+
+    tableau.innerHTML = "";
+
+
+    if (resultats.length === 0) {
+
+
+        tableau.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                    ">
+
+                    Aucun chargement trouvé.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    resultats.forEach(
+        function(chargement) {
+
+
+            const ligne =
+                document.createElement("tr");
+
+
+            ligne.innerHTML = `
+
+                <td>
+                    ${chargement.date || ""}
+                </td>
+
+                <td>
+                    ${chargement.operateur || ""}
+                </td>
+
+                <td>
+                    ${chargement.produit || ""}
+                </td>
+
+                <td>
+                    ${chargement.stockage || ""}
+                </td>
+
+                <td>
+                    ${chargement.typeSR || ""}
+                </td>
+
+                <td>
+                    ${chargement.numeroSR || ""}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.masseChargee || 0
+                    ).toFixed(2)}
+                    kg
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.pertes || 0
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.taux || 0
+                    ).toFixed(2)}
+                    %
+                </td>
+
+            `;
+
+
+            tableau.appendChild(ligne);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   BOUTON GÉNÉRER
+   ===================================================== */
+
+const boutonGenerer =
+    document.getElementById(
+        "genererRapport"
+    );
+
+
+if (boutonGenerer) {
+
+    boutonGenerer.addEventListener(
+        "click",
+        function() {
+
+            genererRapport();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   BOUTON RÉINITIALISER
+   ===================================================== */
+
+const boutonReset =
+    document.getElementById(
+        "reinitialiser"
+    );
+
+
+if (boutonReset) {
+
+    boutonReset.addEventListener(
+        "click",
+        function() {
+
+
+            document.getElementById(
+                "dateDebut"
+            ).value = "";
+
+
+            document.getElementById(
+                "dateFin"
+            ).value = "";
+
+
+            document.getElementById(
+                "filtreProduit"
+            ).value = "Tous";
+
+
+            document.getElementById(
+                "filtreStockage"
+            ).value = "Tous";
+
+
+            document.getElementById(
+                "filtreSR"
+            ).value = "Tous";
+
+
+            genererRapport();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RAPPORT AUTOMATIQUE AU CHARGEMENT
+   ===================================================== */
+
+genererRapport();
+
+/* =====================================================
+   TÉLÉCHARGER LE RAPPORT PDF
+   ===================================================== */
+
+document.getElementById("telechargerPDF").addEventListener("click", function () {
+
+    const historique =
+        JSON.parse(
+            localStorage.getItem("historiqueCryoTrack")
+        ) || [];
+
+    /* Récupération des filtres */
+
+    const dateDebut =
+        document.getElementById("dateDebut").value;
+
+    const dateFin =
+        document.getElementById("dateFin").value;
+
+    const produit =
+        document.getElementById("filtreProduit").value;
+
+    const stockage =
+        document.getElementById("filtreStockage").value;
+
+    const typeSR =
+        document.getElementById("filtreSR").value;
+
+
+    /* Filtrage */
+
+    const resultats = historique.filter(function (chargement) {
+
+        if (
+            dateDebut &&
+            chargement.date < dateDebut
+        ) {
+            return false;
+        }
+
+        if (
+            dateFin &&
+            chargement.date > dateFin
+        ) {
+            return false;
+        }
+
+        if (
+            produit !== "Tous" &&
+            chargement.produit !== produit
+        ) {
+            return false;
+        }
+
+        if (
+            stockage !== "Tous" &&
+            chargement.stockage !== stockage
+        ) {
+            return false;
+        }
+
+        if (
+            typeSR !== "Tous" &&
+            chargement.typeSR !== typeSR
+        ) {
+            return false;
+        }
+
+        return true;
+
+    });
+
+
+    if (resultats.length === 0) {
+
+        alert(
+            "Aucun chargement correspondant aux critères sélectionnés."
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       CALCULS
+       ================================================= */
+
+    let masseTotale = 0;
+    let pertesTotales = 0;
+    let sommeTaux = 0;
+    let conformes = 0;
+    let alertes = 0;
+
+
+    resultats.forEach(function (chargement) {
+
+        const masse =
+            Number(chargement.masseChargee || 0);
+
+        const pertes =
+            Number(chargement.pertes || 0);
+
+        const taux =
+            Number(chargement.taux || 0);
+
+
+        masseTotale += masse;
+
+        pertesTotales += pertes;
+
+        sommeTaux += taux;
+
+
+        if (taux < 5) {
+
+            conformes++;
+
+        } else {
+
+            alertes++;
+
+        }
+
+    });
+
+
+    const total =
+        resultats.length;
+
+
+    const tauxMoyen =
+        total > 0
+        ? sommeTaux / total
+        : 0;
+
+
+    /* =================================================
+       CRÉATION DU PDF
+       ================================================= */
+
+    const { jsPDF } = window.jspdf;
+
+    const doc =
+        new jsPDF(
+            "landscape",
+            "mm",
+            "a4"
+        );
+
+
+    /* =================================================
+       EN-TÊTE
+       ================================================= */
+
+    doc.setFontSize(20);
+
+    doc.setTextColor(0, 94, 184);
+
+    doc.text(
+        "CRYOTRACK",
+        15,
+        15
+    );
+
+
+    doc.setFontSize(16);
+
+    doc.setTextColor(0, 0, 0);
+
+    doc.text(
+        "Rapport des chargements cryogéniques",
+        15,
+        25
+    );
+
+
+    doc.setFontSize(10);
+
+    doc.text(
+        "Centre de Transfert et de Maintenance (CTM)",
+        15,
+        32
+    );
+
+
+    doc.text(
+        "Date de génération : " +
+        new Date().toLocaleDateString("fr-FR"),
+        200,
+        15
+    );
+
+
+    /* =================================================
+       FILTRES UTILISÉS
+       ================================================= */
+
+    let texteFiltres =
+        "Filtres : ";
+
+
+    texteFiltres +=
+        "Produit = " +
+        produit +
+        " | ";
+
+
+    texteFiltres +=
+        "Stockage = " +
+        stockage +
+        " | ";
+
+
+    texteFiltres +=
+        "Type SR = " +
+        typeSR;
+
+
+    if (dateDebut) {
+
+        texteFiltres +=
+            " | Du " +
+            dateDebut;
+
+    }
+
+
+    if (dateFin) {
+
+        texteFiltres +=
+            " au " +
+            dateFin;
+
+    }
+
+
+    doc.setFontSize(9);
+
+    doc.text(
+        texteFiltres,
+        15,
+        42
+    );
+
+
+    /* =================================================
+       RÉSUMÉ
+       ================================================= */
+
+    doc.setFontSize(12);
+
+    doc.text(
+        "Résumé",
+        15,
+        52
+    );
+
+
+    doc.setFontSize(10);
+
+    doc.text(
+        "Nombre de chargements : " +
+        total,
+        15,
+        60
+    );
+
+
+    doc.text(
+        "Masse totale chargée : " +
+        masseTotale.toFixed(2) +
+        " kg",
+        15,
+        67
+    );
+
+
+    doc.text(
+        "Pertes totales : " +
+        pertesTotales.toFixed(2),
+        15,
+        74
+    );
+
+
+    doc.text(
+        "Taux moyen de pertes : " +
+        tauxMoyen.toFixed(2) +
+        " %",
+        15,
+        81
+    );
+
+
+    doc.text(
+        "Chargements conformes : " +
+        conformes,
+        120,
+        60
+    );
+
+
+    doc.text(
+        "Chargements en alerte : " +
+        alertes,
+        120,
+        67
+    );
+
+
+    /* =================================================
+       TABLEAU
+       ================================================= */
+
+    const lignes =
+        resultats.map(function (chargement) {
+
+            return [
+
+                chargement.date || "",
+
+                chargement.operateur || "",
+
+                chargement.produit || "",
+
+                chargement.stockage || "",
+
+                chargement.typeSR || "",
+
+                chargement.numeroSR || "",
+
+                Number(
+                    chargement.masseChargee || 0
+                ).toFixed(2) + " kg",
+
+                Number(
+                    chargement.pertes || 0
+                ).toFixed(2),
+
+                Number(
+                    chargement.taux || 0
+                ).toFixed(2) + " %"
+
+            ];
+
+        });
+
+
+    doc.autoTable({
+
+        startY: 90,
+
+        head: [[
+
+            "Date",
+
+            "Opérateur",
+
+            "Produit",
+
+            "Stockage",
+
+            "Type SR",
+
+            "N° SR",
+
+            "Masse",
+
+            "Pertes",
+
+            "Taux"
+
+        ]],
+
+        body: lignes,
+
+        theme: "grid",
+
+        headStyles: {
+
+            fillColor: [
+                0,
+                94,
+                184
+            ],
+
+            textColor: 255,
+
+            fontSize: 9
+
+        },
+
+        bodyStyles: {
+
+            fontSize: 8
+
+        },
+
+        margin: {
+
+            left: 10,
+
+            right: 10
+
+        }
+
+    });
+
+
+    /* =================================================
+       PIED DE PAGE
+       ================================================= */
+
+    const nombrePages =
+        doc.internal.getNumberOfPages();
+
+
+    for (
+        let i = 1;
+        i <= nombrePages;
+        i++
+    ) {
+
+        doc.setPage(i);
+
+        doc.setFontSize(8);
+
+        doc.setTextColor(100);
+
+        doc.text(
+
+            "CryoTrack - Rapport de chargement",
+
+            15,
+
+            202
+
+        );
+
+
+        doc.text(
+
+            "Page " +
+            i +
+            " / " +
+            nombrePages,
+
+            260,
+
+            202
+
+        );
+
+    }
+
+
+    /* =================================================
+       TÉLÉCHARGEMENT
+       ================================================= */
+
+    const datePDF =
+        new Date()
+        .toISOString()
+        .slice(0, 10);
+
+
+    doc.save(
+        "Rapport_CryoTrack_" +
+        datePDF +
+        ".pdf"
+    );
+
+});
+
+
+</script>
+
+
+</body>
+<script>
+
+function verifierModeIngenieur() {
+
+    const mode =
+        sessionStorage.getItem("modeIngenieur");
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+    if (bouton) {
+
+        if (mode === "active") {
+
+            bouton.style.display = "block";
+
+        } else {
+
+            bouton.style.display = "none";
+
+        }
+    }
+}
+
+
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem("modeIngenieur");
+
+    sessionStorage.removeItem("roleCryoTrack");
+
+    alert("🔒 Mode ingénieur désactivé.");
+
+    window.location.href =
+        "./dashboard.html.html";
+}
+
+
+verifierModeIngenieur();
+
+</script>
+
+</html>

@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryoTrack - Analyses</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bibliothèque Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+        /* =====================================================
+           DIAGRAMMES
+           ===================================================== */
+
+        .diagrammes-container {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            gap: 25px;
+
+            margin-top: 30px;
+
+            width: 100%;
+
+        }
+
+
+        .diagramme-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+            min-height: 350px;
+
+            width: 100%;
+
+        }
+
+
+        .diagramme-card h2 {
+
+            color: #005EB8;
+
+            font-size: 18px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* Zone générale des graphiques */
+
+        .diagramme-zone {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 300px;
+
+            min-height: 300px;
+
+        }
+
+
+        .diagramme-zone canvas {
+
+            display: block;
+
+            width: 100% !important;
+
+            height: 100% !important;
+
+        }
+
+
+        /* =====================================================
+           DIAGRAMME PERTES
+           ===================================================== */
+
+        .diagramme-pertes-card {
+
+            min-height: 500px;
+
+        }
+
+
+        .diagramme-pertes-zone {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 420px;
+
+            min-height: 420px;
+
+        }
+
+
+        #diagrammePertes {
+
+            display: block;
+
+            width: 100% !important;
+
+            height: 420px !important;
+
+        }
+
+
+        /* =====================================================
+           DIAGRAMME MENSUEL
+           ===================================================== */
+
+        .diagramme-mensuel-card {
+
+            min-height: 400px;
+
+        }
+
+
+        .diagramme-mensuel-zone {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 320px;
+
+            min-height: 320px;
+
+        }
+
+
+        #diagrammeMensuel {
+
+            display: block;
+
+            width: 100% !important;
+
+            height: 320px !important;
+
+        }
+
+
+        /* =====================================================
+           ALERTES
+           ===================================================== */
+
+        .succes-analyse {
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            background: #eaf7ee;
+
+            color: #217a3b;
+
+            font-weight: bold;
+
+            text-align: center;
+
+        }
+
+
+        .alerte-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            background: #fff4f4;
+
+            border: 1px solid #f1caca;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .alerte-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .alerte-info strong {
+
+            color: #b42318;
+
+        }
+
+
+        .alerte-info span {
+
+            color: #555;
+
+            font-size: 14px;
+
+        }
+
+
+        .alerte-taux {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #c62828;
+
+            white-space: nowrap;
+
+        }
+
+
+        @media(max-width:900px) {
+
+            .diagrammes-container {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .diagramme-pertes-zone {
+
+                height: 380px;
+
+                min-height: 380px;
+
+            }
+
+
+            #diagrammePertes {
+
+                height: 380px !important;
+
+            }
+
+
+            .alerte-item {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         MENU
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="sidebar-logo">
+
+            <img
+                src="images/air-liquide-logo.png.png"
+                alt="CryoTrack"
+            >
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+
+            <a
+                href="./dashboard.html.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="./index.html.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    🚛
+                </span>
+
+                <span>
+                    Nouveau chargement
+                </span>
+
+            </a>
+
+
+            <a
+                href="./historique.html.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    📋
+                </span>
+
+                <span>
+                    Historique
+                </span>
+
+            </a>
+
+
+            <a
+                href="./analyses.html.html"
+                class="menu-item active"
+            >
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                <span>
+                    Analyses
+                </span>
+
+            </a>
+
+
+            <a
+                href="./rapports.html.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    📄
+                </span>
+
+                <span>
+                    Rapports
+                </span>
+
+            </a>
+
+
+            <a
+                href="./parametres.html.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    ⚙️
+                </span>
+
+                <span>
+                    Paramètres
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                id="menuDeconnexionIngenieur"
+                class="menu-item engineer-menu"
+                style="display:none;"
+                onclick="deconnexionIngenieur(); return false;"
+            >
+
+                <span class="menu-icon">
+                    🔒
+                </span>
+
+                <span>
+                    Quitter mode ingénieur
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <strong>
+                Air Liquide
+            </strong>
+
+            <span>
+                CryoTrack
+            </span>
+
+            <small>
+                Version 1.0.0
+            </small>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         CONTENU
+         ===================================================== -->
+
+    <main class="content">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <header class="top-header">
+
+
+            <div>
+
+                <h1>
+                    📊 Analyses
+                </h1>
+
+                <p>
+                    Analyse des performances de chargement
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <span id="dateAnalyse"></span>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             FILTRES
+             ================================================= -->
+
+        <section class="formulaire">
+
+
+            <h2>
+                🔎 Filtres d'analyse
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- PRODUIT -->
+
+                <div>
+
+                    <label>
+                        Produit
+                    </label>
+
+
+                    <select id="filtreProduit">
+
+                        <option value="TOUS">
+                            Tous les produits
+                        </option>
+
+                        <option value="LIN">
+                            LIN
+                        </option>
+
+                        <option value="LOX">
+                            LOX
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- STOCKAGE -->
+
+                <div>
+
+                    <label>
+                        Stockage
+                    </label>
+
+
+                    <select id="filtreStockage">
+
+                        <option value="TOUS">
+                            Tous les stockages
+                        </option>
+
+                        <option value="B40">
+                            B40
+                        </option>
+
+                        <option value="B50">
+                            B50
+                        </option>
+
+                        <option value="B51">
+                            B51
+                        </option>
+
+                        <option value="B52">
+                            B52
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- SEMI REMORQUE -->
+
+                <div>
+
+                    <label>
+                        Type de semi-remorque
+                    </label>
+
+
+                    <select id="filtreSR">
+
+                        <option value="TOUS">
+                            Tous les types
+                        </option>
+
+                        <option value="ISO">
+                            ISO
+                        </option>
+
+                        <option value="Solo HP">
+                            Solo HP
+                        </option>
+
+                        <option value="SR BP">
+                            SR BP
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <div style="margin-top:20px;">
+
+                <button
+                    type="button"
+                    onclick="reinitialiserFiltres()"
+                >
+
+                    Réinitialiser les filtres
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             KPI
+             ================================================= -->
+
+        <section class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    📦 Chargements
+                </h3>
+
+                <h2 id="analyseNombre">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    ⚖️ Masse chargée
+                </h3>
+
+                <h2 id="analyseMasse">
+                    0 kg
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    📉 Pertes moyennes
+                </h3>
+
+                <h2 id="analysePertes">
+                    0 %
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    ✅ Conformité
+                </h3>
+
+                <h2 id="analyseConformite">
+                    0 %
+                </h2>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             DIAGRAMMES
+             ================================================= -->
+
+        <section class="diagrammes-container">
+
+
+            <!-- =================================================
+                 PRODUITS
+                 ================================================= -->
+
+            <div class="diagramme-card">
+
+                <h2>
+                    🧪 Chargements par produit
+                </h2>
+
+                <div class="diagramme-zone">
+
+                    <canvas
+                        id="diagrammeProduits"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STOCKAGES
+                 ================================================= -->
+
+            <div class="diagramme-card">
+
+                <h2>
+                    🛢️ Chargements par stockage
+                </h2>
+
+                <div class="diagramme-zone">
+
+                    <canvas
+                        id="diagrammeStockages"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SEMI REMORQUES
+                 ================================================= -->
+
+            <div class="diagramme-card">
+
+                <h2>
+                    🚛 Chargements par semi-remorque
+                </h2>
+
+                <div class="diagramme-zone">
+
+                    <canvas
+                        id="diagrammeSemi"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PERTES
+                 ================================================= -->
+
+            <div class="diagramme-card diagramme-pertes-card">
+
+                <h2>
+                    📉 Évolution du taux de pertes
+                </h2>
+
+                <div class="diagramme-pertes-zone">
+
+                    <canvas
+                        id="diagrammePertes"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ÉVOLUTION MENSUELLE
+                 ================================================= -->
+
+            <div class="diagramme-card diagramme-mensuel-card">
+
+                <h2>
+                    📅 Évolution mensuelle des pertes
+                </h2>
+
+                <div class="diagramme-mensuel-zone">
+
+                    <canvas
+                        id="diagrammeMensuel"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ALERTES
+             ================================================= -->
+
+        <section class="formulaire">
+
+            <h2>
+                ⚠️ Chargements nécessitant une attention
+            </h2>
+
+            <div id="listeAlertes"></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTIQUES EXISTANTES
+             ================================================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- PRODUITS -->
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        🧪 Produits
+                    </h2>
+
+                    <span>
+                        LIN / LOX
+                    </span>
+
+                </div>
+
+
+                <div id="analyseProduits"></div>
+
+            </div>
+
+
+
+            <!-- STOCKAGES -->
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        🛢️ Stockages
+                    </h2>
+
+                    <span>
+                        B40 / B50 / B51 / B52
+                    </span>
+
+                </div>
+
+
+                <div id="analyseStockages"></div>
+
+            </div>
+
+
+
+            <!-- SEMI -->
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        🚛 Semi-remorques
+                    </h2>
+
+                    <span>
+                        Types utilisés
+                    </span>
+
+                </div>
+
+
+                <div id="analyseSemi"></div>
+
+            </div>
+
+
+
+            <!-- PERFORMANCE -->
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        📈 Performance
+                    </h2>
+
+                    <span>
+                        Seuil : 5 %
+                    </span>
+
+                </div>
+
+
+                <div id="analysePerformance"></div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             TABLEAU
+             ================================================= -->
+
+        <section class="formulaire">
+
+
+            <h2>
+                📋 Détail des chargements analysés
+            </h2>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Produit
+                            </th>
+
+                            <th>
+                                Stockage
+                            </th>
+
+                            <th>
+                                Type SR
+                            </th>
+
+                            <th>
+                                N° SR
+                            </th>
+
+                            <th>
+                                Masse
+                            </th>
+
+                            <th>
+                                Pertes
+                            </th>
+
+                            <th>
+                                Taux
+                            </th>
+
+                            <th>
+                                Statut
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tableauAnalyse">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   DATE
+   ===================================================== */
+
+document.getElementById(
+    "dateAnalyse"
+).textContent =
+    new Date().toLocaleDateString("fr-FR");
+
+
+
+/* =====================================================
+   HISTORIQUE
+   ===================================================== */
+
+function obtenirHistorique() {
+
+    try {
+
+        const donnees =
+            localStorage.getItem(
+                "historiqueCryoTrack"
+            );
+
+        if (!donnees) {
+
+            return [];
+
+        }
+
+        const historique =
+            JSON.parse(donnees);
+
+        return Array.isArray(historique)
+            ? historique
+            : [];
+
+    }
+
+    catch (erreur) {
+
+        console.error(
+            "Erreur historique :",
+            erreur
+        );
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILTRAGE
+   ===================================================== */
+
+function obtenirDonneesFiltrees() {
+
+    const historique =
+        obtenirHistorique();
+
+
+    const produit =
+        document.getElementById(
+            "filtreProduit"
+        ).value;
+
+
+    const stockage =
+        document.getElementById(
+            "filtreStockage"
+        ).value;
+
+
+    const typeSR =
+        document.getElementById(
+            "filtreSR"
+        ).value;
+
+
+    return historique.filter(
+        function(chargement) {
+
+            const produitOK =
+                produit === "TOUS" ||
+                chargement.produit === produit;
+
+
+            const stockageOK =
+                stockage === "TOUS" ||
+                chargement.stockage === stockage;
+
+
+            const srOK =
+                typeSR === "TOUS" ||
+                chargement.typeSR === typeSR;
+
+
+            return (
+                produitOK &&
+                stockageOK &&
+                srOK
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   KPI
+   ===================================================== */
+
+function afficherKPI(donnees) {
+
+    const nombre =
+        donnees.length;
+
+
+    document.getElementById(
+        "analyseNombre"
+    ).textContent =
+        nombre;
+
+
+
+    const masse =
+        donnees.reduce(
+            function(total, chargement) {
+
+                return total +
+                    Number(
+                        chargement.masseChargee || 0
+                    );
+
+            },
+            0
+        );
+
+
+    document.getElementById(
+        "analyseMasse"
+    ).textContent =
+        masse.toFixed(0) + " kg";
+
+
+
+    let moyennePertes = 0;
+
+
+    if (nombre > 0) {
+
+        moyennePertes =
+            donnees.reduce(
+                function(total, chargement) {
+
+                    return total +
+                        Number(
+                            chargement.taux || 0
+                        );
+
+                },
+                0
+            ) / nombre;
+
+    }
+
+
+    document.getElementById(
+        "analysePertes"
+    ).textContent =
+        moyennePertes.toFixed(2) + " %";
+
+
+
+    const conformes =
+        donnees.filter(
+            function(chargement) {
+
+                return Number(
+                    chargement.taux || 0
+                ) < 5;
+
+            }
+        ).length;
+
+
+    const conformite =
+        nombre > 0
+            ? (
+                conformes /
+                nombre
+            ) * 100
+            : 0;
+
+
+    document.getElementById(
+        "analyseConformite"
+    ).textContent =
+        conformite.toFixed(1) + " %";
+
+}
+
+
+
+/* =====================================================
+   STATISTIQUES
+   ===================================================== */
+
+function afficherStatistiquesAnalyse(
+    donnees,
+    propriete,
+    elementID
+) {
+
+    const statistiques = {};
+
+
+    donnees.forEach(
+        function(chargement) {
+
+            const valeur =
+                chargement[propriete];
+
+
+            if (!valeur) {
+
+                return;
+
+            }
+
+
+            if (!statistiques[valeur]) {
+
+                statistiques[valeur] = 0;
+
+            }
+
+
+            statistiques[valeur]++;
+
+        }
+    );
+
+
+    const conteneur =
+        document.getElementById(
+            elementID
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+    const valeurs =
+        Object.entries(
+            statistiques
+        );
+
+
+    if (valeurs.length === 0) {
+
+        conteneur.innerHTML =
+            "<p>Aucune donnée.</p>";
+
+        return;
+
+    }
+
+
+    const maximum =
+        Math.max(
+            ...valeurs.map(
+                function(item) {
+
+                    return item[1];
+
+                }
+            )
+        );
+
+
+    valeurs.forEach(
+        function(item) {
+
+            const ligne =
+                document.createElement(
+                    "div"
+                );
+
+
+            ligne.className =
+                "stat-row";
+
+
+            const largeur =
+                maximum > 0
+                    ? (
+                        item[1] /
+                        maximum
+                    ) * 100
+                    : 0;
+
+
+            ligne.innerHTML = `
+
+                <div class="stat-info">
+
+                    <span class="stat-name">
+                        ${item[0]}
+                    </span>
+
+                    <span class="stat-value">
+                        ${item[1]}
+                    </span>
+
+                </div>
+
+                <div class="stat-bar">
+
+                    <div
+                        class="stat-fill"
+                        style="width:${largeur}%"
+                    ></div>
+
+                </div>
+
+            `;
+
+
+            conteneur.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   PERFORMANCE
+   ===================================================== */
+
+function afficherPerformance(donnees) {
+
+    const conteneur =
+        document.getElementById(
+            "analysePerformance"
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+    if (donnees.length === 0) {
+
+        conteneur.innerHTML =
+            "<p>Aucune donnée.</p>";
+
+        return;
+
+    }
+
+
+    donnees.forEach(
+        function(chargement) {
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            const ligne =
+                document.createElement(
+                    "div"
+                );
+
+
+            ligne.className =
+                "stat-row";
+
+
+            const largeur =
+                Math.min(
+                    Math.max(taux * 10, 0),
+                    100
+                );
+
+
+            const statut =
+                taux < 5
+                    ? "🟢 Conforme"
+                    : "🔴 Alerte";
+
+
+            ligne.innerHTML = `
+
+                <div class="stat-info">
+
+                    <span class="stat-name">
+
+                        ${chargement.numeroSR || "-"}
+
+                    </span>
+
+                    <span class="stat-value">
+
+                        ${taux.toFixed(2)} %
+
+                        ${statut}
+
+                    </span>
+
+                </div>
+
+
+                <div class="stat-bar">
+
+                    <div
+                        class="stat-fill"
+                        style="width:${largeur}%"
+                    ></div>
+
+                </div>
+
+            `;
+
+
+            conteneur.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   TABLEAU
+   ===================================================== */
+
+function afficherTableau(donnees) {
+
+    const tableau =
+        document.getElementById(
+            "tableauAnalyse"
+        );
+
+
+    tableau.innerHTML = "";
+
+
+    if (donnees.length === 0) {
+
+        tableau.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    style="text-align:center;"
+                >
+
+                    Aucun chargement
+                    correspondant aux filtres.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    donnees.forEach(
+        function(chargement) {
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            const statut =
+                taux < 5
+                    ? "🟢 Conforme"
+                    : "🔴 Alerte";
+
+
+            const ligne =
+                document.createElement(
+                    "tr"
+                );
+
+
+            ligne.innerHTML = `
+
+                <td>
+                    ${chargement.date || "-"}
+                </td>
+
+                <td>
+                    ${chargement.produit || "-"}
+                </td>
+
+                <td>
+                    ${chargement.stockage || "-"}
+                </td>
+
+                <td>
+                    ${chargement.typeSR || "-"}
+                </td>
+
+                <td>
+                    ${chargement.numeroSR || "-"}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.masseChargee || 0
+                    ).toFixed(2)} kg
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.pertes || 0
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    ${taux.toFixed(2)} %
+                </td>
+
+                <td>
+                    ${statut}
+                </td>
+
+            `;
+
+
+            tableau.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   VARIABLES DES DIAGRAMMES
+   ===================================================== */
+
+let diagrammeProduits = null;
+
+let diagrammeStockages = null;
+
+let diagrammeSemi = null;
+
+let chartPertes = null;
+
+let chartMensuel = null;
+
+
+
+/* =====================================================
+   COMPTER LES CATÉGORIES
+   ===================================================== */
+
+function compterCategorie(
+    donnees,
+    propriete
+) {
+
+    const resultat = {};
+
+
+    donnees.forEach(
+        function(chargement) {
+
+            const valeur =
+                chargement[propriete];
+
+
+            if (!valeur) {
+
+                return;
+
+            }
+
+
+            if (!resultat[valeur]) {
+
+                resultat[valeur] = 0;
+
+            }
+
+
+            resultat[valeur]++;
+
+        }
+    );
+
+
+    return resultat;
+
+}
+
+
+
+/* =====================================================
+   DIAGRAMME PRODUITS
+   ===================================================== */
+
+function creerDiagrammeProduits(donnees) {
+
+    const canvas =
+        document.getElementById(
+            "diagrammeProduits"
+        );
+
+
+    if (!canvas) {
+
+        return;
+
+    }
+
+
+    if (diagrammeProduits) {
+
+        diagrammeProduits.destroy();
+
+        diagrammeProduits = null;
+
+    }
+
+
+    const statistiques =
+        compterCategorie(
+            donnees,
+            "produit"
+        );
+
+
+    diagrammeProduits =
+        new Chart(
+            canvas,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+                        "LIN",
+                        "LOX"
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            data: [
+
+                                statistiques.LIN || 0,
+
+                                statistiques.LOX || 0
+
+                            ]
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "bottom"
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   DIAGRAMME STOCKAGES
+   ===================================================== */
+
+function creerDiagrammeStockages(donnees) {
+
+    const canvas =
+        document.getElementById(
+            "diagrammeStockages"
+        );
+
+
+    if (!canvas) {
+
+        return;
+
+    }
+
+
+    if (diagrammeStockages) {
+
+        diagrammeStockages.destroy();
+
+        diagrammeStockages = null;
+
+    }
+
+
+    const statistiques =
+        compterCategorie(
+            donnees,
+            "stockage"
+        );
+
+
+    diagrammeStockages =
+        new Chart(
+            canvas,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+                        "B40",
+                        "B50",
+                        "B51",
+                        "B52"
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Nombre de chargements",
+
+                            data: [
+
+                                statistiques.B40 || 0,
+
+                                statistiques.B50 || 0,
+
+                                statistiques.B51 || 0,
+
+                                statistiques.B52 || 0
+
+                            ]
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                precision: 0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   DIAGRAMME SEMI-REMORQUES
+   ===================================================== */
+
+function creerDiagrammeSemi(donnees) {
+
+    const canvas =
+        document.getElementById(
+            "diagrammeSemi"
+        );
+
+
+    if (!canvas) {
+
+        return;
+
+    }
+
+
+    if (diagrammeSemi) {
+
+        diagrammeSemi.destroy();
+
+        diagrammeSemi = null;
+
+    }
+
+
+    const statistiques =
+        compterCategorie(
+            donnees,
+            "typeSR"
+        );
+
+
+    diagrammeSemi =
+        new Chart(
+            canvas,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+
+                        "ISO",
+
+                        "Solo HP",
+
+                        "SR BP"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Nombre de chargements",
+
+                            data: [
+
+                                statistiques.ISO || 0,
+
+                                statistiques["Solo HP"] || 0,
+
+                                statistiques["SR BP"] || 0
+
+                            ]
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                precision: 0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   DIAGRAMME PERTES
+   ===================================================== */
+
+function creerDiagrammePertes(donnees) {
+
+    const canvas =
+        document.getElementById(
+            "diagrammePertes"
+        );
+
+
+    if (!canvas) {
+
+        console.error(
+            "Canvas diagrammePertes introuvable"
+        );
+
+        return;
+
+    }
+
+
+    if (chartPertes) {
+
+        chartPertes.destroy();
+
+        chartPertes = null;
+
+    }
+
+
+    /* =================================================
+       LABELS
+       ================================================= */
+
+    const labels =
+        donnees.map(
+            function(chargement, index) {
+
+                return chargement.numeroSR
+                    ? chargement.numeroSR
+                    : "SR" +
+                      String(index + 1)
+                          .padStart(2, "0");
+
+            }
+        );
+
+
+    /* =================================================
+       TAUX
+       ================================================= */
+
+    const valeurs =
+        donnees.map(
+            function(chargement) {
+
+                const valeur =
+                    Number(
+                        chargement.taux
+                    );
+
+
+                return Number.isFinite(valeur)
+                    ? valeur
+                    : 0;
+
+            }
+        );
+
+
+    /* =================================================
+       SEUIL 5 %
+       ================================================= */
+
+    const seuil =
+        donnees.map(
+            function() {
+
+                return 5;
+
+            }
+        );
+
+
+    /* =================================================
+       CALCUL DE L'ÉCHELLE Y
+       ================================================= */
+
+    const valeurMaximum =
+        valeurs.length > 0
+            ? Math.max(...valeurs, 5)
+            : 5;
+
+
+    const maximumY =
+        Math.max(
+            8,
+            Math.ceil(valeurMaximum + 1)
+        );
+
+
+    /* =================================================
+       GRAPHIQUE
+       ================================================= */
+
+    chartPertes =
+        new Chart(
+            canvas,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels: labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Taux de pertes",
+
+
+                            data:
+                                valeurs,
+
+
+                            tension:
+                                0,
+
+
+                            fill:
+                                false,
+
+
+                            pointRadius:
+                                5,
+
+
+                            pointHoverRadius:
+                                8,
+
+
+                            borderWidth:
+                                3
+
+                        },
+
+
+                        {
+
+                            label:
+                                "SEUIL 5 %",
+
+
+                            data:
+                                seuil,
+
+
+                            tension:
+                                0,
+
+
+                            fill:
+                                false,
+
+
+                            pointRadius:
+                                0,
+
+
+                            pointHoverRadius:
+                                0,
+
+
+                            borderWidth:
+                                2,
+
+
+                            borderDash:
+                                [
+                                    8,
+                                    6
+                                ]
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    interaction: {
+
+                        mode:
+                            "index",
+
+                        intersect:
+                            false
+
+                    },
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+
+                            min:
+                                0,
+
+
+                            max:
+                                maximumY,
+
+
+                            ticks: {
+
+                                stepSize:
+                                    1,
+
+
+                                callback:
+                                    function(value) {
+
+                                        return value +
+                                            " %";
+
+                                    }
+
+                            },
+
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Taux %"
+
+                            }
+
+                        },
+
+
+                        x: {
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Chargements"
+
+                            },
+
+
+                            ticks: {
+
+                                autoSkip:
+                                    false,
+
+                                maxRotation:
+                                    45,
+
+                                minRotation:
+                                    0
+
+                            }
+
+                        }
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                true,
+
+                            position:
+                                "bottom"
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label:
+                                    function(context) {
+
+                                        return (
+                                            context.dataset.label +
+                                            " : " +
+                                            Number(
+                                                context.parsed.y
+                                            ).toFixed(2) +
+                                            " %"
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   DIAGRAMME MENSUEL
+   ===================================================== */
+
+function creerDiagrammeMensuel(donnees) {
+
+    const canvas =
+        document.getElementById(
+            "diagrammeMensuel"
+        );
+
+
+    if (!canvas) {
+
+        return;
+
+    }
+
+
+    if (chartMensuel) {
+
+        chartMensuel.destroy();
+
+        chartMensuel = null;
+
+    }
+
+
+    const mois = {};
+
+
+    donnees.forEach(
+        function(chargement) {
+
+            if (!chargement.date) {
+
+                return;
+
+            }
+
+
+            const date =
+                new Date(
+                    chargement.date
+                );
+
+
+            if (isNaN(date.getTime())) {
+
+                return;
+
+            }
+
+
+            const moisNom =
+                date.toLocaleDateString(
+                    "fr-FR",
+                    {
+
+                        month:
+                            "short",
+
+                        year:
+                            "numeric"
+
+                    }
+                );
+
+
+            if (!mois[moisNom]) {
+
+                mois[moisNom] = {
+
+                    total:
+                        0,
+
+                    nombre:
+                        0
+
+                };
+
+            }
+
+
+            mois[moisNom].total +=
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            mois[moisNom].nombre++;
+
+        }
+    );
+
+
+    const labels =
+        Object.keys(
+            mois
+        );
+
+
+    const valeurs =
+        labels.map(
+            function(moisNom) {
+
+                if (
+                    mois[moisNom].nombre === 0
+                ) {
+
+                    return 0;
+
+                }
+
+
+                return Number(
+                    mois[moisNom].total /
+                    mois[moisNom].nombre
+                ).toFixed(2);
+
+            }
+        );
+
+
+    const seuil =
+        labels.map(
+            function() {
+
+                return 5;
+
+            }
+        );
+
+
+    chartMensuel =
+        new Chart(
+            canvas,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels: labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Taux moyen de pertes",
+
+
+                            data:
+                                valeurs,
+
+
+                            tension:
+                                0.3,
+
+
+                            fill:
+                                false,
+
+
+                            pointRadius:
+                                5,
+
+
+                            borderWidth:
+                                3
+
+                        },
+
+
+                        {
+
+                            label:
+                                "Objectif : 5 %",
+
+
+                            data:
+                                seuil,
+
+
+                            borderDash:
+                                [
+                                    8,
+                                    6
+                                ],
+
+
+                            pointRadius:
+                                0,
+
+
+                            fill:
+                                false,
+
+
+                            tension:
+                                0,
+
+
+                            borderWidth:
+                                2
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Taux de pertes (%)"
+
+                            }
+
+                        }
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
+
+                            position:
+                                "bottom"
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   ACTUALISER LES DIAGRAMMES
+   ===================================================== */
+
+function actualiserDiagrammes(donnees) {
+
+    creerDiagrammeProduits(
+        donnees
+    );
+
+
+    creerDiagrammeStockages(
+        donnees
+    );
+
+
+    creerDiagrammeSemi(
+        donnees
+    );
+
+
+    creerDiagrammePertes(
+        donnees
+    );
+
+
+    creerDiagrammeMensuel(
+        donnees
+    );
+
+}
+
+
+
+/* =====================================================
+   ALERTES
+   ===================================================== */
+
+function afficherAlertes(donnees) {
+
+    const conteneur =
+        document.getElementById(
+            "listeAlertes"
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+    const alertes =
+        donnees.filter(
+            function(chargement) {
+
+                return Number(
+                    chargement.taux || 0
+                ) >= 5;
+
+            }
+        );
+
+
+    if (alertes.length === 0) {
+
+        conteneur.innerHTML = `
+
+            <div class="succes-analyse">
+
+                ✅ Aucun chargement ne dépasse
+                le seuil de 5 %.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    alertes.forEach(
+        function(chargement) {
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "alerte-item";
+
+
+            element.innerHTML = `
+
+                <div class="alerte-info">
+
+                    <strong>
+
+                        🚛
+                        ${chargement.numeroSR ||
+                        "N° non renseigné"}
+
+                    </strong>
+
+                    <span>
+
+                        Produit :
+                        ${chargement.produit || "-"}
+
+                        &nbsp; | &nbsp;
+
+                        Stockage :
+                        ${chargement.stockage || "-"}
+
+                        &nbsp; | &nbsp;
+
+                        Type :
+                        ${chargement.typeSR || "-"}
+
+                    </span>
+
+                    <span>
+
+                        Date :
+                        ${chargement.date || "-"}
+
+                    </span>
+
+                </div>
+
+
+                <div class="alerte-taux">
+
+                    ${taux.toFixed(2)} %
+
+                </div>
+
+            `;
+
+
+            conteneur.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   ACTUALISATION GÉNÉRALE
+   ===================================================== */
+
+function actualiserAnalyses() {
+
+    const donnees =
+        obtenirDonneesFiltrees();
+
+
+    afficherKPI(
+        donnees
+    );
+
+
+    afficherStatistiquesAnalyse(
+        donnees,
+        "produit",
+        "analyseProduits"
+    );
+
+
+    afficherStatistiquesAnalyse(
+        donnees,
+        "stockage",
+        "analyseStockages"
+    );
+
+
+    afficherStatistiquesAnalyse(
+        donnees,
+        "typeSR",
+        "analyseSemi"
+    );
+
+
+    afficherPerformance(
+        donnees
+    );
+
+
+    afficherTableau(
+        donnees
+    );
+
+
+    actualiserDiagrammes(
+        donnees
+    );
+
+
+    afficherAlertes(
+        donnees
+    );
+
+}
+
+
+
+/* =====================================================
+   FILTRES
+   ===================================================== */
+
+document.getElementById(
+    "filtreProduit"
+).addEventListener(
+    "change",
+    actualiserAnalyses
+);
+
+
+document.getElementById(
+    "filtreStockage"
+).addEventListener(
+    "change",
+    actualiserAnalyses
+);
+
+
+document.getElementById(
+    "filtreSR"
+).addEventListener(
+    "change",
+    actualiserAnalyses
+);
+
+
+
+/* =====================================================
+   RÉINITIALISER
+   ===================================================== */
+
+function reinitialiserFiltres() {
+
+    document.getElementById(
+        "filtreProduit"
+    ).value =
+        "TOUS";
+
+
+    document.getElementById(
+        "filtreStockage"
+    ).value =
+        "TOUS";
+
+
+    document.getElementById(
+        "filtreSR"
+    ).value =
+        "TOUS";
+
+
+    actualiserAnalyses();
+
+}
+
+
+
+/* =====================================================
+   MODE INGÉNIEUR
+   ===================================================== */
+
+function afficherMenuIngenieur() {
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+
+    if (!bouton) {
+
+        return;
+
+    }
+
+
+    const mode =
+        sessionStorage.getItem(
+            "modeIngenieur"
+        );
+
+
+    if (mode === "active") {
+
+        bouton.style.display =
+            "flex";
+
+    }
+
+    else {
+
+        bouton.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem(
+        "modeIngenieur"
+    );
+
+
+    alert(
+        "🔒 Mode ingénieur désactivé."
+    );
+
+
+    window.location.href =
+        "./dashboard.html.html";
+
+}
+
+
+
+/* =====================================================
+   DÉMARRAGE
+   ===================================================== */
+
+afficherMenuIngenieur();
+
+actualiserAnalyses();
+
+
+</script>
+
+
+</body>
+
+</html>

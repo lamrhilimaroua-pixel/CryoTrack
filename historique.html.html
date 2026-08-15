@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>CryoTrack - Historique</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<!-- ================= MENU ================= -->
+
+    <aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <img
+            src="images/air-liquide-logo.png.png"
+            alt="CryoTrack"
+        >
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="./dashboard.html.html"
+            class="menu-item active"
+        >
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="./index.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">🚛</span>
+            <span>Nouveau chargement</span>
+        </a>
+
+
+        <a
+            href="./historique.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📋</span>
+            <span>Historique</span>
+        </a>
+
+
+        <a
+            href="./analyses.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📊</span>
+            <span>Analyses</span>
+        </a>
+
+
+        <a
+            href="./rapports.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📄</span>
+            <span>Rapports</span>
+        </a>
+
+
+        <a
+            href="./parametres.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">⚙️</span>
+            <span>Paramètres</span>
+        </a>
+
+
+        <a
+            href="#"
+            id="menuDeconnexionIngenieur"
+            class="menu-item engineer-menu"
+            style="display:none;"
+            onclick="deconnexionIngenieur(); return false;"
+        >
+            <span class="menu-icon">🔒</span>
+            <span>Quitter mode ingénieur</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <strong>Air Liquide</strong>
+
+        <span>CryoTrack</span>
+
+        <small>Version 1.0.0</small>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= CONTENU ================= -->
+
+<main class="content">
+
+    <header class="top-header">
+
+        <div>
+
+            <h1>Historique des chargements</h1>
+
+            <p>
+                Consultation des chargements enregistrés
+            </p>
+
+        </div>
+
+    </header>
+
+    <div style="margin-top:20px;">
+
+    <button
+        type="button"
+        onclick="activerModeIngenieur()">
+
+        🔐 Activer le mode ingénieur
+
+    </button>
+
+    <button
+        type="button"
+        onclick="desactiverModeIngenieur()">
+
+        🔒 Désactiver
+
+    </button>
+
+</div>
+
+    <!-- ================= TABLEAU ================= -->
+
+    <section class="formulaire">
+
+        <h2>Chargements enregistrés</h2>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Opérateur</th>
+                        <th>Produit</th>
+                        <th>Stockage</th>
+                        <th>Type SR</th>
+                        <th>N° SR</th>
+                        <th>Masse chargée</th>
+                        <th>Pertes</th>
+                        <th>Taux</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="historiqueTableau">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+</div>
+
+<script>
+
+    /* =====================================================
+   MODE INGÉNIEUR
+   ===================================================== */
+
+let modeIngenieur = false;
+
+
+/* Code provisoire de l'ingénieur */
+const CODE_INGENIEUR = "CryoTrack2026";
+
+
+function activerModeIngenieur() {
+
+    const code = prompt(
+        "🔐 Accès ingénieur\n\nEntrez le code ingénieur :"
+    );
+
+    if (code === null) {
+        return;
+    }
+
+    if (code === CODE_INGENIEUR) {
+
+        modeIngenieur = true;
+
+        alert(
+            "✅ Mode ingénieur activé."
+        );
+
+        afficherHistorique();
+
+    } else {
+
+        alert(
+            "❌ Code incorrect."
+        );
+
+    }
+
+}
+
+
+function desactiverModeIngenieur() {
+
+    modeIngenieur = false;
+
+    afficherHistorique();
+
+    alert(
+        "🔒 Mode ingénieur désactivé."
+    );
+
+}
+
+/* =====================================================
+   AFFICHER L'HISTORIQUE
+   ===================================================== */
+
+function afficherHistorique() {
+
+    const historique =
+        JSON.parse(
+            localStorage.getItem("historiqueCryoTrack")
+        ) || [];
+
+
+    const tableau =
+        document.getElementById(
+            "historiqueTableau"
+        );
+
+
+    tableau.innerHTML = "";
+
+
+    if (historique.length === 0) {
+
+        tableau.innerHTML = `
+            <tr>
+                <td colspan="10"
+                    style="text-align:center;">
+                    Aucun chargement enregistré
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    historique.forEach(
+        function(chargement, index) {
+
+            const ligne =
+                document.createElement("tr");
+
+
+            ligne.innerHTML = `
+
+                <td>
+                    ${chargement.date || ""}
+                </td>
+
+                <td>
+                    ${chargement.operateur || ""}
+                </td>
+
+                <td>
+                    ${chargement.produit || ""}
+                </td>
+
+                <td>
+                    ${chargement.stockage || ""}
+                </td>
+
+                <td>
+                    ${chargement.typeSR || ""}
+                </td>
+
+                <td>
+                    ${chargement.numeroSR || ""}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.masseChargee || 0
+                    ).toFixed(2)} kg
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.pertes || 0
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.taux || 0
+                    ).toFixed(2)} %
+                </td>
+
+                <td class="actions">
+
+    ${
+        modeIngenieur
+        ? `
+            <button onclick="modifierChargement(${index})">
+                ✏️ Modifier
+            </button>
+
+            <button onclick="supprimerChargement(${index})">
+                🗑️ Supprimer
+            </button>
+          `
+        : `
+            <span style="color:#888;">
+                🔒 Accès ingénieur
+            </span>
+          `
+    }
+
+</td>
+
+            `;
+
+
+            tableau.appendChild(ligne);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MODIFIER UN CHARGEMENT
+   ===================================================== */
+
+function modifierChargement(index) {
+
+    const historique =
+        JSON.parse(
+            localStorage.getItem("historiqueCryoTrack")
+        ) || [];
+
+
+    const chargement =
+        historique[index];
+
+
+    if (!chargement) {
+
+        alert(
+            "Chargement introuvable."
+        );
+
+        return;
+    }
+
+
+    /*
+       On sauvegarde le chargement
+       sélectionné pour la page index.
+    */
+
+    localStorage.setItem(
+        "chargementAModifier",
+        JSON.stringify(chargement)
+    );
+
+
+    /*
+       On sauvegarde sa position
+       dans l'historique.
+    */
+
+    localStorage.setItem(
+        "indexModification",
+        index.toString()
+    );
+
+
+    /*
+       Aller vers le formulaire.
+    */
+
+    window.location.href =
+        "index.html.html";
+
+}
+
+
+/* =====================================================
+   SUPPRIMER UN CHARGEMENT
+   ===================================================== */
+
+function supprimerChargement(index) {
+
+    const confirmation =
+        confirm(
+            "Voulez-vous vraiment supprimer ce chargement ?"
+        );
+
+
+    if (!confirmation) {
+
+        return;
+
+    }
+
+
+    let historique =
+        JSON.parse(
+            localStorage.getItem(
+                "historiqueCryoTrack"
+            )
+        ) || [];
+
+
+    historique.splice(index, 1);
+
+
+    localStorage.setItem(
+        "historiqueCryoTrack",
+        JSON.stringify(historique)
+    );
+
+
+    afficherHistorique();
+
+}
+
+
+/* =====================================================
+   LANCEMENT
+   ===================================================== */
+
+afficherHistorique();
+
+</script>
+
+</body>
+<script>
+
+function verifierModeIngenieur() {
+
+    const mode =
+        sessionStorage.getItem("modeIngenieur");
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+    if (bouton) {
+
+        if (mode === "active") {
+
+            bouton.style.display = "block";
+
+        } else {
+
+            bouton.style.display = "none";
+
+        }
+    }
+}
+
+
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem("modeIngenieur");
+
+    sessionStorage.removeItem("roleCryoTrack");
+
+    alert("🔒 Mode ingénieur désactivé.");
+
+    window.location.href =
+        "./dashboard.html.html";
+}
+
+
+verifierModeIngenieur();
+
+</script>
+
+</html>
+

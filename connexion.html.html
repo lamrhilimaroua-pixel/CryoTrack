@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryoTrack - Accès Ingénieur</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #eef2f7;
+        }
+
+        .login-box {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #005EB8;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .login-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .login-box button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #messageErreur {
+            display: none;
+            color: #c62828;
+            background: #ffebee;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .retour {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #005EB8;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <div class="login-box">
+
+
+        <h1>🔐 CRYOTRACK</h1>
+
+        <p>
+            Accès réservé aux ingénieurs
+        </p>
+
+
+        <form id="formConnexion">
+
+
+            <label for="identifiant">
+                Identifiant
+            </label>
+
+            <input
+                type="text"
+                id="identifiant"
+                placeholder="Identifiant ingénieur"
+                required
+            >
+
+
+            <label for="motDePasse">
+                Mot de passe
+            </label>
+
+            <input
+                type="password"
+                id="motDePasse"
+                placeholder="Mot de passe"
+                required
+            >
+
+
+            <button type="submit">
+                🔓 Se connecter
+            </button>
+
+
+        </form>
+
+
+        <div id="messageErreur">
+            Identifiant ou mot de passe incorrect.
+        </div>
+
+
+        <a
+            href="./dashboard.html.html"
+            class="retour"
+        >
+            ← Retour au Dashboard
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+document
+    .getElementById("formConnexion")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const identifiant =
+            document.getElementById(
+                "identifiant"
+            ).value.trim();
+
+
+        const motDePasse =
+            document.getElementById(
+                "motDePasse"
+            ).value;
+
+
+        /*
+         * Identifiants provisoires
+         * pour le prototype CryoTrack
+         */
+
+        const identifiantCorrect =
+            "ingenieur";
+
+
+        const motDePasseCorrect =
+            "CryoTrack2026";
+
+
+        if (
+            identifiant === identifiantCorrect &&
+            motDePasse === motDePasseCorrect
+        ) {
+
+            /*
+             * Création de la session ingénieur
+             */
+
+            sessionStorage.setItem(
+                "roleCryoTrack",
+                "ingenieur"
+            );
+
+
+            /*
+             * Redirection vers les paramètres
+             */
+
+            window.location.href =
+                "./parametres.html.html";
+
+
+        } else {
+
+            document.getElementById(
+                "messageErreur"
+            ).style.display = "block";
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

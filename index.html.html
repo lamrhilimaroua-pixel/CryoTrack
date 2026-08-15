@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CryoTrack - Air Liquide Maroc</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= MENU LATÉRAL ================= -->
+
+    <aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <img
+            src="images/air-liquide-logo.png.png"
+            alt="CryoTrack"
+        >
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="./dashboard.html.html"
+            class="menu-item active"
+        >
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="./index.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">🚛</span>
+            <span>Nouveau chargement</span>
+        </a>
+
+
+        <a
+            href="./historique.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📋</span>
+            <span>Historique</span>
+        </a>
+
+
+        <a
+            href="./analyses.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📊</span>
+            <span>Analyses</span>
+        </a>
+
+
+        <a
+            href="./rapports.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">📄</span>
+            <span>Rapports</span>
+        </a>
+
+
+        <a
+            href="./parametres.html.html"
+            class="menu-item"
+        >
+            <span class="menu-icon">⚙️</span>
+            <span>Paramètres</span>
+        </a>
+
+
+        <a
+            href="#"
+            id="menuDeconnexionIngenieur"
+            class="menu-item engineer-menu"
+            style="display:none;"
+            onclick="deconnexionIngenieur(); return false;"
+        >
+            <span class="menu-icon">🔒</span>
+            <span>Quitter mode ingénieur</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <strong>Air Liquide</strong>
+
+        <span>CryoTrack</span>
+
+        <small>Version 1.0.0</small>
+
+    </div>
+
+</aside>
+
+
+
+<!-- ================= CONTENU PRINCIPAL ================= -->
+
+<main class="content">
+
+
+    <!-- EN-TÊTE -->
+
+    <header class="top-header">
+
+        <div>
+
+            <h1>🚛 Nouveau Chargement</h1>
+
+            <p>CTM - Centrale Tit Mellil</p>
+
+        </div>
+
+        <div class="date-box">
+    📅 <span id="dateHeure"></span>
+</div>
+
+    </header>
+
+
+
+    <!-- ================= KPI ================= -->
+
+<section class="cards">
+
+    <div class="card">
+        <h3>Chargements du jour</h3>
+        <h2 id="kpiChargements">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>Pertes</h3>
+        <h2 id="kpiPertes">0 %</h2>
+    </div>
+
+    <div class="card">
+        <h3>Stock <span id="kpiStockNom">B50</span></h3>
+        <h2 id="kpiStock">0 L</h2>
+    </div>
+
+    <div class="card">
+        <h3>Statut</h3>
+        <h2 id="kpiStatut">En attente</h2>
+    </div>
+
+</section>
+
+
+
+    <!-- ================= INFORMATIONS GÉNÉRALES ================= -->
+
+    <section class="formulaire">
+
+        <h2>Informations générales</h2>
+
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>Nom de l'opérateur</label>
+
+                <input
+                    type="text"
+                    id="operateur"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>Date</label>
+
+                <input
+                    type="date"
+                    id="dateChargement"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>Produit</label>
+
+                <select id="produit">
+
+                    <option value="LIN">
+                        LIN
+                    </option>
+
+                    <option value="LOX">
+                        LOX
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Stockage</label>
+
+                <select id="stockage">
+
+                    <option value="B40">
+                        B40
+                    </option>
+
+                    <option value="B50">
+                        B50
+                    </option>
+
+                    <option value="B51">
+                        B51
+                    </option>
+
+                    <option value="B52">
+                        B52
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Type Semi-remorque</label>
+
+                <select id="typeSR">
+
+                    <option value="ISO">
+                        ISO
+                    </option>
+
+                    <option value="Solo">
+                        Solo
+                    </option>
+
+                    <option value="SR">
+                        SR
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Numéro SR</label>
+
+                <input
+                    type="text"
+                    id="numeroSR"
+                >
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CONTRÔLE AVANT ================= -->
+
+    <section class="formulaire">
+
+        <h2>Contrôle avant chargement</h2>
+
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>
+                    Pesée avant chargement du SR (kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="poidsAvant"
+                    step="0.01"
+                    placeholder="Ex : 12500"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Niveau stock avant (L)
+                </label>
+
+                <input
+                    type="number"
+                    id="stockAvant"
+                    step="0.01"
+                    placeholder="Ex : 100000"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Heure début
+                </label>
+
+                <input
+                    type="time"
+                    id="heureDebut"
+                >
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PRODUCTION ================= -->
+
+    <section class="formulaire">
+
+        <h2>Production pendant le chargement</h2>
+
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>
+                    Production pendant le chargement (L)
+                </label>
+
+                <input
+                    type="number"
+                    id="production"
+                    step="0.01"
+                    placeholder="Ex : 5000"
+                >
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CONTRÔLE APRÈS ================= -->
+
+    <section class="formulaire">
+
+        <h2>Contrôle après chargement</h2>
+
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>
+                    Pesée après chargement du SR (kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="poidsApres"
+                    step="0.01"
+                    placeholder="Ex : 40500"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Niveau stock après (L)
+                </label>
+
+                <input
+                    type="number"
+                    id="stockApres"
+                    step="0.01"
+                    placeholder="Ex : 75000"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Heure fin
+                </label>
+
+                <input
+                    type="time"
+                    id="heureFin"
+                >
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= RÉSULTATS ================= -->
+
+    <section class="formulaire">
+
+        <h2>Résultats du chargement</h2>
+
+
+        <button
+            type="button"
+            id="calculer"
+        >
+            Calculer le bilan
+        </button>
+
+
+        <button
+            type="button"
+            id="enregistrer"
+        >
+            Enregistrer le chargement
+        </button>
+
+
+        <div class="resultats">
+
+
+            <div class="resultat">
+
+                <div>
+
+                    <p>Masse chargée</p>
+
+                    <strong>
+
+                        <span id="masse">
+                            0
+                        </span>
+
+                        kg
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultat">
+
+                <div>
+
+                    <p>Sortie du stock</p>
+
+                    <strong>
+
+                        <span id="sortieStock">
+                            0
+                        </span>
+
+                        L
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultat">
+
+                <div>
+
+                    <p>Pertes</p>
+
+                    <strong>
+
+                        <span id="pertes">
+                            0
+                        </span>
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultat">
+
+                <div>
+
+                    <p>Taux de pertes</p>
+
+                    <strong>
+
+                        <span id="taux">
+                            0
+                        </span>
+
+                        %
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            id="statut"
+            class="statut"
+        >
+            En attente du calcul
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+</div>
+
+
+<script>
+
+</script>
+
+<script src="script.js"></script>
+
+</body>
+<script>
+
+function verifierModeIngenieur() {
+
+    const mode =
+        sessionStorage.getItem("modeIngenieur");
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+    if (bouton) {
+
+        if (mode === "active") {
+
+            bouton.style.display = "block";
+
+        } else {
+
+            bouton.style.display = "none";
+
+        }
+    }
+}
+
+
+function deconnexionIngenieur() {
+
+    sessionStorage.removeItem("modeIngenieur");
+
+    sessionStorage.removeItem("roleCryoTrack");
+
+    alert("🔒 Mode ingénieur désactivé.");
+
+    window.location.href =
+        "./dashboard.html.html";
+}
+
+
+verifierModeIngenieur();
+
+</script>
+</html>

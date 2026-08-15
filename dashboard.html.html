@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryoTrack - Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BANDEAU SUPÉRIEUR
+     ===================================================== -->
+
+<header class="site-topbar">
+
+    <!-- AIR LIQUIDE -->
+
+   <div class="air-liquide-brand">
+
+    <img
+        src="images/air-liquide-logo.png.png"
+        alt="Air Liquide"
+        class="air-liquide-logo"
+       style="width: 180px; height: auto;"
+    >
+
+</div>
+
+
+    <!-- CRYOTRACK -->
+
+    <div class="cryotrack-brand">
+
+        <div class="cryotrack-icon">
+            ❄
+        </div>
+
+        <div>
+
+            <div class="cryotrack-name">
+                CryoTrack
+            </div>
+
+            <div class="cryotrack-subtitle">
+                Cryogenic Loading Management
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SESSION -->
+
+    <div class="session-info">
+
+        <div class="session-status">
+
+            <div>
+                🟢 <span>Session active</span>
+            </div>
+
+            <div>
+                Mode normal
+            </div>
+
+        </div>
+
+        <div class="user-circle">
+            👤
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+<!-- =====================================================
+     MENU LATÉRAL
+     ===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="sidebar-logo">
+
+        <img
+            src="images/Air-Liquide-Emploi-et-Recrutement-Dreamjob.ma_.webp"
+            alt="CryoTrack"
+        >
+
+    </div>
+
+
+
+    <nav class="sidebar-menu">
+
+
+        <a
+            href="./dashboard.html.html"
+            class="menu-item active"
+        >
+
+            <span class="menu-icon">
+                🏠
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+
+        <a
+            href="./index.html.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                🚛
+            </span>
+
+            <span>
+                Nouveau chargement
+            </span>
+
+        </a>
+
+
+
+        <a
+            href="./historique.html.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📋
+            </span>
+
+            <span>
+                Historique
+            </span>
+
+        </a>
+
+
+
+        <a
+            href="./analyses.html.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📊
+            </span>
+
+            <span>
+                Analyses
+            </span>
+
+        </a>
+
+
+
+        <a
+            href="./rapports.html.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📄
+            </span>
+
+            <span>
+                Rapports
+            </span>
+
+        </a>
+
+
+
+        <a
+            href="./parametres.html.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ⚙️
+            </span>
+
+            <span>
+                Paramètres
+            </span>
+
+        </a>
+
+
+
+        <!-- DÉCONNEXION INGÉNIEUR -->
+
+        <a
+            href="#"
+            id="menuDeconnexionIngenieur"
+            class="menu-item engineer-menu"
+            style="display:none;"
+            onclick="deconnexionIngenieur(); return false;"
+        >
+
+            <span class="menu-icon">
+                🔒
+            </span>
+
+            <span>
+                Quitter mode ingénieur
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
+
+    <div class="sidebar-footer">
+
+        <strong>
+            Air Liquide
+        </strong>
+
+        <span>
+            CryoTrack
+        </span>
+
+        <small>
+            Version 1.0.0
+        </small>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     CONTENU PRINCIPAL
+     ===================================================== -->
+
+<main class="content">
+
+
+    <!-- EN-TÊTE DASHBOARD -->
+
+    <header class="top-header">
+
+    <div class="dashboard-title">
+
+        <div class="dashboard-title-icon">
+            🏠
+        </div>
+
+        <div>
+
+            <h1>
+                Dashboard
+            </h1>
+
+            <p>
+                Vue d'ensemble des chargements cryogéniques
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-actions">
+
+        <div class="date-box">
+
+            <span class="date-icon">
+                📅
+            </span>
+
+            <span id="date">
+                Date
+            </span>
+
+        </div>
+
+
+        <a
+            href="./index.html.html"
+            class="btn-nouveau-chargement"
+        >
+
+            <span>
+                ＋
+            </span>
+
+            Nouveau chargement
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+    <!-- =================================================
+         KPI
+         ================================================= -->
+
+    <section class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                📦 Total chargements
+            </h3>
+
+            <h2 id="dashTotalChargements">
+                0
+            </h2>
+
+            <p>
+                Chargements enregistrés
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                💧 Volume chargé
+            </h3>
+
+            <h2 id="dashVolumeTotal">
+                0 kg
+            </h2>
+
+            <p>
+                Volume total
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                📉 Pertes moyennes
+            </h3>
+
+            <h2 id="dashPertesMoyennes">
+                0 %
+            </h2>
+
+            <p>
+                Taux moyen de pertes
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                ✅ Conformité
+            </h3>
+
+            <h2 id="dashConformite">
+                0 %
+            </h2>
+
+            <p>
+                Chargements &lt; 5 %
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         GRILLE DASHBOARD
+         ================================================= -->
+
+    <section class="dashboard-grid">
+
+
+        <!-- PRODUITS -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    📊 Produits chargés
+                </h2>
+
+                <span>
+                    LIN / LOX
+                </span>
+
+            </div>
+
+            <div id="produitsStats"></div>
+
+        </div>
+
+
+
+        <!-- STOCKAGES -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    🛢️ Stockages
+                </h2>
+
+                <span>
+                    B40 à B52
+                </span>
+
+            </div>
+
+            <div id="stockagesStats"></div>
+
+        </div>
+
+
+
+        <!-- SEMI-REMORQUES -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    🚛 Semi-remorques
+                </h2>
+
+                <span>
+                    Types utilisés
+                </span>
+
+            </div>
+
+            <div id="semiStats"></div>
+
+        </div>
+
+
+
+        <!-- DERNIERS CHARGEMENTS -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    📋 Derniers chargements
+                </h2>
+
+                <span>
+                    Historique
+                </span>
+
+            </div>
+
+            <div id="derniersChargements"></div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         TABLEAU HISTORIQUE
+         ================================================= -->
+
+    <section class="formulaire">
+
+
+        <h2>
+            Derniers chargements
+        </h2>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Produit
+                        </th>
+
+                        <th>
+                            Stockage
+                        </th>
+
+                        <th>
+                            N° SR
+                        </th>
+
+                        <th>
+                            Masse chargée
+                        </th>
+
+                        <th>
+                            Pertes
+                        </th>
+
+                        <th>
+                            Taux
+                        </th>
+
+                        <th>
+                            Statut
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody id="dashboardTableau">
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ALERTES
+         ================================================= -->
+
+    <section class="formulaire">
+
+
+        <h2>
+            Alertes récentes
+        </h2>
+
+
+        <div id="alertesDashboard">
+
+            <p>
+                Aucune alerte.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   DATE
+   ===================================================== */
+
+function afficherDate() {
+
+    const element =
+        document.getElementById("date");
+
+    const maintenant =
+        new Date();
+
+    element.textContent =
+        maintenant.toLocaleDateString(
+            "fr-FR",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+}
+
+
+
+/* =====================================================
+   RÉCUPÉRER HISTORIQUE
+   ===================================================== */
+
+function recupererHistorique() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "historiqueCryoTrack"
+            )
+        ) || [];
+
+    } catch (erreur) {
+
+        console.error(
+            "Erreur historique :",
+            erreur
+        );
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =====================================================
+   KPI
+   ===================================================== */
+
+function chargerKPI() {
+
+
+    const historique =
+        recupererHistorique();
+
+
+
+    /* TOTAL */
+
+    document.getElementById(
+        "dashTotalChargements"
+    ).textContent =
+        historique.length;
+
+
+
+    /* VOLUME */
+
+    const volumeTotal =
+        historique.reduce(
+            function(total, chargement) {
+
+                return total +
+                    Number(
+                        chargement.masseChargee || 0
+                    );
+
+            },
+            0
+        );
+
+
+    document.getElementById(
+        "dashVolumeTotal"
+    ).textContent =
+        volumeTotal.toFixed(0) + " kg";
+
+
+
+    /* PERTES */
+
+    let pertesMoyennes = 0;
+
+
+    if (historique.length > 0) {
+
+        const somme =
+            historique.reduce(
+                function(total, chargement) {
+
+                    return total +
+                        Number(
+                            chargement.taux || 0
+                        );
+
+                },
+                0
+            );
+
+
+        pertesMoyennes =
+            somme / historique.length;
+
+    }
+
+
+    document.getElementById(
+        "dashPertesMoyennes"
+    ).textContent =
+        pertesMoyennes.toFixed(2) + " %";
+
+
+
+    /* CONFORMITÉ */
+
+    let conformes = 0;
+
+
+    historique.forEach(
+        function(chargement) {
+
+            if (
+                Number(
+                    chargement.taux || 0
+                ) < 5
+            ) {
+
+                conformes++;
+
+            }
+
+        }
+    );
+
+
+    let conformite = 0;
+
+
+    if (historique.length > 0) {
+
+        conformite =
+            (conformes / historique.length) * 100;
+
+    }
+
+
+    document.getElementById(
+        "dashConformite"
+    ).textContent =
+        conformite.toFixed(1) + " %";
+
+}
+
+
+
+/* =====================================================
+   STATISTIQUES
+   ===================================================== */
+
+function afficherStatistiques(
+    historique,
+    propriete,
+    elementID
+) {
+
+
+    const conteneur =
+        document.getElementById(
+            elementID
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+
+    const statistiques = {};
+
+
+
+    historique.forEach(
+        function(chargement) {
+
+
+            const valeur =
+                chargement[propriete];
+
+
+            if (!valeur) {
+
+                return;
+
+            }
+
+
+            if (
+                !statistiques[valeur]
+            ) {
+
+                statistiques[valeur] = 0;
+
+            }
+
+
+            statistiques[valeur]++;
+
+        }
+    );
+
+
+
+    const valeurs =
+        Object.entries(
+            statistiques
+        );
+
+
+
+    if (valeurs.length === 0) {
+
+        conteneur.innerHTML =
+            "<p>Aucune donnée disponible.</p>";
+
+        return;
+
+    }
+
+
+
+    const maximum =
+        Math.max(
+            ...valeurs.map(
+                function(item) {
+
+                    return item[1];
+
+                }
+            )
+        );
+
+
+
+    valeurs.forEach(
+        function(item) {
+
+
+            const nom =
+                item[0];
+
+
+            const nombre =
+                item[1];
+
+
+            const pourcentage =
+                (
+                    nombre /
+                    historique.length
+                ) * 100;
+
+
+            const largeur =
+                (
+                    nombre /
+                    maximum
+                ) * 100;
+
+
+
+            const ligne =
+                document.createElement(
+                    "div"
+                );
+
+
+            ligne.className =
+                "stat-row";
+
+
+
+            ligne.innerHTML = `
+
+                <div class="stat-info">
+
+                    <span class="stat-name">
+                        ${nom}
+                    </span>
+
+                    <span class="stat-value">
+                        ${nombre}
+                        (${pourcentage.toFixed(1)} %)
+                    </span>
+
+                </div>
+
+
+                <div class="stat-bar">
+
+                    <div
+                        class="stat-fill"
+                        style="width:${largeur}%"
+                    ></div>
+
+                </div>
+
+            `;
+
+
+
+            conteneur.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   DERNIERS CHARGEMENTS - CARTE
+   ===================================================== */
+
+function afficherDerniersChargementsCarte(
+    historique
+) {
+
+
+    const conteneur =
+        document.getElementById(
+            "derniersChargements"
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+
+    const derniers =
+        historique
+            .slice()
+            .reverse()
+            .slice(0, 5);
+
+
+
+    if (derniers.length === 0) {
+
+        conteneur.innerHTML =
+            "<p>Aucun chargement enregistré.</p>";
+
+        return;
+
+    }
+
+
+
+    derniers.forEach(
+        function(chargement) {
+
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            const classe =
+                taux < 5
+                ? "loss-ok"
+                : "loss-alert";
+
+
+
+            const ligne =
+                document.createElement(
+                    "div"
+                );
+
+
+            ligne.className =
+                "recent-loading";
+
+
+
+            ligne.innerHTML = `
+
+                <div class="recent-main">
+
+                    <span class="recent-sr">
+
+                        🚛 SR :
+                        ${chargement.numeroSR || "-"}
+
+                    </span>
+
+
+                    <span class="recent-product">
+
+                        ${chargement.produit || "-"}
+
+                        •
+
+                        ${chargement.stockage || "-"}
+
+                    </span>
+
+
+                    <span class="recent-date">
+
+                        ${chargement.date || "-"}
+
+                    </span>
+
+                </div>
+
+
+                <span
+                    class="recent-loss ${classe}"
+                >
+
+                    ${taux.toFixed(2)} %
+
+                </span>
+
+            `;
+
+
+
+            conteneur.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   TABLEAU DES 5 DERNIERS
+   ===================================================== */
+
+function afficherTableau(
+    historique
+) {
+
+
+    const tableau =
+        document.getElementById(
+            "dashboardTableau"
+        );
+
+
+    if (!tableau) {
+
+        return;
+
+    }
+
+
+    tableau.innerHTML = "";
+
+
+
+    const derniers =
+        historique
+            .slice()
+            .reverse()
+            .slice(0, 5);
+
+
+
+    if (derniers.length === 0) {
+
+        tableau.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    style="text-align:center;"
+                >
+
+                    Aucun chargement enregistré
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    derniers.forEach(
+        function(chargement) {
+
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+            const statut =
+                taux < 5
+                ? "Conforme"
+                : "Alerte";
+
+
+
+            const ligne =
+                document.createElement(
+                    "tr"
+                );
+
+
+
+            ligne.innerHTML = `
+
+                <td>
+                    ${chargement.date || "-"}
+                </td>
+
+                <td>
+                    ${chargement.produit || "-"}
+                </td>
+
+                <td>
+                    ${chargement.stockage || "-"}
+                </td>
+
+                <td>
+                    ${chargement.numeroSR || "-"}
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.masseChargee || 0
+                    ).toFixed(2)} kg
+                </td>
+
+                <td>
+                    ${Number(
+                        chargement.pertes || 0
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    ${taux.toFixed(2)} %
+                </td>
+
+                <td>
+                    ${statut}
+                </td>
+
+            `;
+
+
+
+            tableau.appendChild(
+                ligne
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   ALERTES
+   ===================================================== */
+
+function afficherAlertes(
+    historique
+) {
+
+
+    const conteneur =
+        document.getElementById(
+            "alertesDashboard"
+        );
+
+
+    if (!conteneur) {
+
+        return;
+
+    }
+
+
+    conteneur.innerHTML = "";
+
+
+
+    const alertes =
+        historique
+            .filter(
+                function(chargement) {
+
+                    return Number(
+                        chargement.taux || 0
+                    ) >= 5;
+
+                }
+            )
+            .slice()
+            .reverse()
+            .slice(0, 5);
+
+
+
+    if (alertes.length === 0) {
+
+        conteneur.innerHTML = `
+
+            <p style="color:green;">
+
+                ✅ Aucune alerte récente.
+
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    alertes.forEach(
+        function(chargement) {
+
+
+            const taux =
+                Number(
+                    chargement.taux || 0
+                );
+
+
+
+            const alerte =
+                document.createElement(
+                    "p"
+                );
+
+
+            alerte.style.marginBottom =
+                "10px";
+
+
+
+            alerte.innerHTML = `
+
+                <strong style="color:red;">
+
+                    ⚠️ Alerte
+
+                </strong>
+
+                — ${chargement.date || "-"}
+
+                — SR ${chargement.numeroSR || "-"}
+
+                — Pertes :
+                ${taux.toFixed(2)} %
+
+            `;
+
+
+
+            conteneur.appendChild(
+                alerte
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIALISATION DASHBOARD
+   ===================================================== */
+
+function chargerDashboard() {
+
+
+    const historique =
+        recupererHistorique();
+
+
+    chargerKPI();
+
+
+
+    afficherStatistiques(
+        historique,
+        "produit",
+        "produitsStats"
+    );
+
+
+
+    afficherStatistiques(
+        historique,
+        "stockage",
+        "stockagesStats"
+    );
+
+
+
+    afficherStatistiques(
+        historique,
+        "typeSR",
+        "semiStats"
+    );
+
+
+
+    afficherDerniersChargementsCarte(
+        historique
+    );
+
+
+
+    afficherTableau(
+        historique
+    );
+
+
+
+    afficherAlertes(
+        historique
+    );
+
+}
+
+
+
+/* =====================================================
+   MODE INGÉNIEUR
+   ===================================================== */
+
+function verifierModeIngenieur() {
+
+
+    const mode =
+        sessionStorage.getItem(
+            "modeIngenieur"
+        );
+
+
+    const bouton =
+        document.getElementById(
+            "menuDeconnexionIngenieur"
+        );
+
+
+    if (!bouton) {
+
+        return;
+
+    }
+
+
+    if (mode === "active") {
+
+        bouton.style.display =
+            "flex";
+
+    } else {
+
+        bouton.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DÉCONNEXION INGÉNIEUR
+   ===================================================== */
+
+function deconnexionIngenieur() {
+
+
+    sessionStorage.removeItem(
+        "modeIngenieur"
+    );
+
+
+    sessionStorage.removeItem(
+        "roleCryoTrack"
+    );
+
+
+    alert(
+        "🔒 Mode ingénieur désactivé."
+    );
+
+
+    window.location.href =
+        "./dashboard.html.html";
+
+}
+
+
+
+/* =====================================================
+   LANCEMENT
+   ===================================================== */
+
+afficherDate();
+
+chargerDashboard();
+
+verifierModeIngenieur();
+
+
+</script>
+
+
+</body>
+
+</html>
